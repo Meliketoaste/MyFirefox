@@ -1,0 +1,10 @@
+there are two options. Full Moon Ultima. Dusky Ultima.
+
+copy and paste the all-global-theme.css file from one of these folders,
+copy it into your [ chrome > theme ] folder.
+it should replace the file there.
+same for the icons folder.
+restart firefox.
+enjoy.
+
+https://github.com/soulhotel/FF-CSS-ULTIMA/blob/main/Modification.md

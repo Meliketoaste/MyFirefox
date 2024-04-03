@@ -1,0 +1,98 @@
+/*
+- this file is disabled, after many failed attempts.
+- this is the closest ive gotten to making the process work.
+- autohiding is a relatively easy thing to accomplish. hover, animate, done.
+- however, due to the nature of forcing a scrollbox out side of its normal configuration
+- and again forcing it to behave accordingly instead of following firefoxs logic
+- things break
+
+- again this is the closest ive gotten it to work,
+- so if youre reading this, and you have some technical ability
+- ill give you a few things
+
+#tabbrowser-tabs:not(:hover) .tab-close-button {display:none !important;}
+
+#tabs-newtab-button {height: 40px !important;}
+
+- dont display the close button, when hovering the tabs
+- dont attempt to animate the close tab buttons on hovering, just do above ^
+- overflow events cause the scrollbox to override my modifications
+- text seemed to be fine since it is a clipped (on overflow) element
+
+#tabs-newtab-button {height: 40px !important; justify-content:left !important}
+
+- positions the new tab button accordingly to the non hovered state
+
+#tab-notification-deck, .global-notificationbox,
+#main-window:not([inDOMFullscreen]) #browser
+{ margin-left: calc(var(--uc-tabs-collapsed) + var(--uc-margin-inline)); }
+
+:root:not([customizing]) #tabbrowser-tabs { width: var(--uc-tabs-collapsed); }
+
+-i had another file where i was using the variable (tabs collapsed) to define width
+and sync with browser margins
+- didnt use it here, i tend to abandon files and recreate them on failure.
+
+- there are no positioning issues, padding and margins are all fine.
+- 40px will measure the perfect width to center the tab icons with the tab container.
+- however 1/5 of the first letter of the tab will be visible.
+for this you add +0.5 margin to .tab-icon-stack, but its not necessary
+
+*/
+
+/* -------------------------------NOW HIDE-------------------------------------- */
+/*
+#PersonalToolbar, #tab-notification-deck,
+.global-notificationbox,
+#main-window:not([inDOMFullscreen]) > body > #browser
+{ margin-left: var(--uc-vertical-tabs-width) !important;}
+*/
+/*
+	To always show Tabs, never hide, follow the steps below 
+	 1. Enable the code above
+	 2. Disable the code below, or delete
+*/
+/*
+	power users and neat freaks goto:
+	[ vertical-tabs.css ] ctrl+f to find [ body > #browser ]
+	paste the margin-left variable above, then delete this file.
+*/
+
+/* -------------------------------NOWWW HIDE-------------------------------------- */
+
+
+
+#tabbrowser-tabs {
+min-width: 40px !important;
+width: 40px !important;
+}
+#main-window[sizemode="fullscreen"]
+#tabbrowser-tabs {
+min-width: 40px !important;
+width: 40px !important;
+}
+
+#tabbrowser-tabs {
+transition: min-width 80ms linear 300ms !important;
+min-width: 40px !important;
+will-change: min-width;}
+
+#tabbrowser-tabs:hover {
+min-width: 220px !important;
+transition-delay: 0ms !important;}
+
+
+/* ---------------Hide tabs completely, when in full screen mode
+
+/*
+#main-window[sizemode="fullscreen"] #tabbrowser-tabs,
+#main-window[inDOMFullscreen] #tabbrowser-tabs
+
+{ left: -600px !important; }
+
+#main-window[sizemode="fullscreen"] > body > #browser,
+#main-window[inDOMFullscreen] > body > #browser
+
+{ margin-left: var(--uc-margin-inline) !important; } /*6px*/
+
+*/

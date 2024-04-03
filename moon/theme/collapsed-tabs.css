@@ -1,0 +1,58 @@
+/*----------------first calculate the margins needed between windows------------------*/
+
+/*--DO NOT GO LOWER THAN 40PX--*/
+:root, body, * {
+--uc-tabs-collapsed: 40px;
+--uc-tabs-background: rgba(28, 27, 34, 0.95);
+}
+
+/* WARNING - you CANNOT pin tabs with the smaller view  */
+/* I have a version that works but not with this theme */
+/* https://github.com/soulhotel/Vertical-Tabs-Firefox-CSS */
+/* Pin Tabs button disabled, when using this feature */
+
+#context_pinTab {display: none;} 
+/*-------------------------------COLLAPSED--------------------------------------*/
+
+#tab-notification-deck, .global-notificationbox,
+#main-window:not([inDOMFullscreen]) #browser
+{ margin-left: calc(var(--uc-tabs-collapsed) + var(--uc-margin-inline)); }
+
+:root:not([customizing]) #tabbrowser-tabs{
+width: var(--uc-tabs-collapsed);
+}
+
+#tabbrowser-tabs:not(:hover) .tab-close-button {display:none !important;}
+
+#tabs-newtab-button {height: 40px !important;}
+
+/*---------------Hide tabs completely, when in full screen mode---------------*/
+/*
+#main-window[sizemode="fullscreen"] #tabbrowser-tabs
+{ min-width:4px !important; max-width:1px !important; }
+
+#main-window[inDOMFullscreen] > body > #browser
+{margin-left: 0px !important;}
+
+#main-window[sizemode="fullscreen"] > body > #browser
+{margin-left: 0px !important;}
+*/
+/*-------------------------------END COLLAPSED TABS--------------------------------------*/
+
+
+
+/*---------------OPTIONAL (HIDE TABS) BUTTON BAR-------------------------
+455 492 529 566 603 640 677 714 751 788 825
+ Increase the mini button bar to 23 buttons 
+ below is a copy/paste/modification of the chrome/verttab/mini-button-bar.css
+
+ ------------------------------- MINI button bar-------------------------------------- */
+
+/*moved*/
+
+
+
+
+
+
+

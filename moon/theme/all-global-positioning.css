@@ -1,0 +1,504 @@
+
+/*--------------------------Global positioning--------------------------*/
+/*---------------Global variables for quick custom modifications-------------*/
+
+:root:not([customizing],[chromehidden~="menubar"]){
+--uc-vertical-tabs-width: 250px;
+--uc-navbar-height: 40px;
+}
+
+:root[uidensity="compact"]:not([customizing],[chromehidden~="menubar"])
+{ --uc-navbar-height: 34px; }
+
+:root, body, * {
+
+/*bookmarkbar height*/
+--uc-bookbar-height: 22px;
+/*calculate tab height based on nav bar*/
+/*then adjust for bookmark being active*/
+--uc-tabbar-height:
+calc(100vh - var(--uc-navbar-height) - var(--uc-margin-top) - var(--uc-margin-bottom));
+--uc-tabbar-height-adjust:
+calc(100vh - var(--uc-bookbar-height) - var(--uc-navbar-height) - var(--uc-margin-top) - var(--uc-margin-bottom));
+
+/*rounded corners*/
+--uc-all-border-radius: 10px;
+--tab-border-radius: 10px;
+--uc-button-border: 4px;
+
+/* ^ > v < (space the windows from each other) */
+/*tabs get there own margins*/
+--uc-all-margins: 3px 6px 6px 6px; 
+--uc-margin-inline: 6px; /* < > */
+--uc-margin-top:3px;     
+--uc-margin-bottom:6px;      
+--uc-tab-margins: 3px 0px 6px 6px;
+--uc-sb-margin-leftside: 3px 3px 6px 6px;
+--uc-sb-margin-rightside: 3px 6px 6px 0px;
+--uc-tab-padding: 2px;
+
+/*individual tabs*/
+--tab-min-height: 35px;
+--tab-min-width: initial !important; /*dont touch*/
+--tab-overflow-pinned-tabs-width: initial !important; /*dont touch*/
+--inline-tab-padding: 10px;
+--tab-block-margin: 2px;
+
+}
+
+/*---------------------------------------------------------------------------------*/
+/*
+the firefox browser orders content like this:
+
+[  =  ] [main window] > navigation bar - on top, browser - on bottom
+[ | | ]   [browser]   > sidebar |< on left, then browser content >| on right]
+
+so im going to follow this order and section parts individually
+I havent modified the nav bar so we go straight to the browser starting with the side bar
+*/
+/*---------------------------------------------------------------------------------*/
+
+/*---------------Browser - Side bar---------------*/
+
+/*--quick hack, bigger sidebar, 50vw = 50% of the screen width--*/
+/*--great for view-tab-in-sidebar extensions--*/
+#sidebar-box { max-width: 50vw !important; }
+#sidebar-box { min-width: 14em; width: 18em; } /*defaults*/
+
+/*--default left side--<--*/
+#sidebar-box {
+border-radius: var(--uc-all-border-radius);
+margin: var(--uc-sb-margin-leftside) !important;
+}
+/*--right side-->--*/
+#sidebar-box[positionend="true"]
+{margin: var(--uc-sb-margin-rightside) !important;}
+
+#sidebar-header {
+border-top-left-radius: var(--uc-all-border-radius) !important;
+border-top-right-radius: var(--uc-all-border-radius) !important; }
+/*--sidebar content--*/
+#sidebar {
+border-bottom-left-radius: var(--uc-all-border-radius) !important;
+border-bottom-right-radius: var(--uc-all-border-radius) !important; }
+
+/*remove ugly border*/
+/*but keep the splitter accessible, it resizes the sidebar*/
+#sidebar-box[positionend] + .sidebar-splitter{
+border: 2px rgba(0,0,0,0) solid !important;
+border-inline-width: 0px !important;
+margin-inline: 0px !important;
+border-inline-end-width: 0px !important;}
+
+.sidebar-splitter
+{width: 2px !important;}
+
+
+/*--------------bookmarks bar---------------*/
+
+/* smaller bookmarks bar */
+
+#PersonalToolbar{
+max-height: var(--uc-bookbar-height) !important;
+padding-bottom: 2px !important;}
+
+/* center bookmarks bar, can remove this part if you dont like */
+
+/*#PlacesToolbar, #PlacesToolbarItems
+{ justify-content: center; padding-right: var(--uc-vertical-tabs-width); }
+ */
+/* so you can see centered bookmarks when customizing */
+
+#PersonalToolbar:is([customizing="true"]) #personal-bookmarks
+{margin-left: 45vw !important;}
+
+#personal-toolbar-empty-description, #personal-toolbar-empty-description .text-link, a
+{cursor: auto !important; opacity: 0 !important;}
+
+/*---------------------------------------------------------------------------------*/
+
+/*---------------Browser - Browser content---------------*/
+
+/*browser is the container, browser stack is the content*/
+
+#browser, #appcontent, #tabbrowser-tabbox,
+#tabbrowser-tabpanels, .browserSidebarContainer,
+.browserStack{
+border-radius: var(--uc-all-border-radius) !important;}
+
+.browserContainer {border-radius: var(--uc-all-border-radius) !important;}
+
+#main-window
+#tabbrowser-tabpanels { browser[type] {
+border-radius: var(--uc-all-border-radius) !important;
+margin: var(--uc-all-margins) !important;
+}}
+
+/*maychangeremoteness="true"
+primary="true"
+remote="true"
+preloadedState="preloaded"
+nodefaultsrc="true"
+manualactiveness="true"*/
+
+/*---------------------------------vertical tabs-------------------------------------*/
+
+/*--first, the body margin should match the tabs width--*/
+
+#tab-notification-deck, .global-notificationbox,
+#main-window:not([inDOMFullscreen]) #browser
+{margin-left: calc(var(--uc-vertical-tabs-width) + var(--uc-margin-inline));}
+
+#tab-notification-deck, .global-notificationbox
+{ width: auto !important; }
+
+/*----------------------------------now tabs-----------------------------------*/
+
+/*--tab container--*/
+
+#tabbrowser-tabs {
+border-radius: var(--uc-all-border-radius);
+border-inline-start: 0 !important;
+margin: var(--uc-tab-margins) !important;
+padding-inline-start: 0 !important;
+padding-inline: 0 !important;
+}
+
+/*--positioning--*/
+
+
+:root:not([customizing]) #tabbrowser-tabs
+{
+position: absolute !important; /*or absolute*/
+height: var(--uc-tabbar-height) !important;
+width: var(--uc-vertical-tabs-width);
+left: 0px;
+contain: size;
+overflow: hidden
+}
+
+/*--tab scrollbox positioning--*/
+
+:root:not([customizing]) #tabbrowser-arrowscrollbox
+{
+--uc-scrollbox-box-model: -webkit-box;
+--uc-scrollbox-height: 100vh;
+--uc-scrollbutton-display: none;
+--uc-scrollbox-overflow: auto;
+}
+
+#tabbrowser-arrowscrollbox,
+#tabbrowser-arrowscrollbox .scrollbox-clip{
+contain: inline-size;
+margin-left: 0px !important;
+}
+
+#tabbrowser-arrowscrollbox,
+#tabbrowser-arrowscrollbox .scrollbox-clip,
+#tabbrowser-arrowscrollbox scrollbox {
+width: var(--uc-vertical-tabs-width);
+}
+
+scrollbox[orient="horizontal"]{
+  display: var(--uc-scrollbox-box-model,flex);
+  -webkit-box-orient: vertical;
+  height: 100%;
+  overflow: var(--uc-scrollbox-overflow,initial);
+} 
+
+#scrollbutton-up,
+#scrollbutton-down{
+  display: var(--uc-scrollbutton-display,initial);
+}
+#titlebar{
+  will-change: none !important;
+  transition: none !important;
+  opacity: 1 !important;
+  z-index: 1 !important;
+}
+
+#tabbrowser-arrowscrollbox {
+  &:not([scrolledtostart])::part(overflow-start-indicator) {
+    margin-inline: -2 !important;
+    opacity: 0 !important;
+  }
+}
+
+/*dont touch*/
+#tabbrowser-arrowscrollbox {
+  &[scrolledtostart]::part(overflow-start-indicator), &[scrolledtoend]::part(overflow-end-indicator) {
+    opacity: 1;
+  }
+}
+
+/*-------------------individial tabs--------------------*/
+
+/*do not touch or i will find you. and when i find you..*/
+.tabbrowser-tab:not([pinned]){
+min-width: var(--uc-vertical-tabs-width) !important;
+width: var(--uc-vertical-tabs-width);
+padding: 0 2px !important;
+--tab-label-mask-size: 2em;}
+
+.tabbrowser-tab:is([pinned]){
+min-width: 0.1px;
+width: var(--uc-vertical-tabs-width);
+padding: 0 2px !important;
+flex-shrink: 0;
+--tab-label-mask-size: 2em;}
+/*i will kill you...*/
+
+/*--vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv--*/
+/*----tab container for (favicon,url,closebutton)--*/
+.tab-stack {
+  margin-inline: 0px !important;}
+/*----tab container content----*/
+.tab-background {
+  border-radius: var(--tab-border-radius) !important;
+  margin-block: var(--tab-block-margin) !important;
+  min-height: var(--tab-min-height) !important;
+}
+.tab-content {
+  padding: 0 10px !important;
+  min-width: 0 !important;}
+/*
+.tab-icon-stack{}
+.tab-icon-image{}
+*/
+.tab-label-container {overflow: hidden;}
+.tab-label {margin-inline: 0; white-space: nowrap;}
+
+.tabbrowser-tab:not([labelendaligned], :hover)
+> .tab-stack > .tab-content > .tab-close-button {
+  padding-inline-start: 0px !important;
+  width: 16px !important; height: 16px !important;}
+
+.tab-close-button {
+margin-inline-end: -3px !important;
+height: 16px !important; width: 16px !important;
+border-radius: var(--uc-button-border) !important;}
+
+.close-icon {
+padding: 2px !important;
+border-radius: var(--uc-button-border) !important;}
+
+.tab-throbber, .tab-icon-pending, .tab-icon-image,
+.tab-sharing-icon-overlay, .tab-icon-overlay
+{height: 16px; width: 16px;}
+
+/*--END of tab container content--*/
+/*--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^--*/
+
+/*--vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv--*/
+/*----tabs when pinned--*/
+
+.tab-icon-stack:is([pinned])
+{margin-right: 5.5px;}
+
+.tabbrowser-tab:is([pinned]) .tab-close-button:is([pinned])
+{display: none !important}
+
+#tabbrowser-tabs[haspinnedtabs]:not([positionpinnedtabs]) >
+#tabbrowser-arrowscrollbox > .tabbrowser-tab:nth-child(1 of :not([pinned], [hidden]))
+{margin-inline-start: 0px !important;}
+
+.tab-throbber,.tab-icon-pending,.tab-icon-image,
+.tab-sharing-icon-overlay,.tab-icon-overlay { &:not([pinned])
+{margin-inline-end: 5.5px;}}
+
+.tab-label-container[textoverflow][labeldirection="ltr"]:not([pinned]),
+.tab-label-container[textoverflow]:not([labeldirection], [pinned]):-moz-locale-dir(ltr) {
+direction: ltr;
+mask-image: linear-gradient(to left, transparent, black var(--tab-label-mask-size));
+}
+
+/*--END pinned tab positioning--*/
+/*--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^--*/
+
+
+/*-------------------tab container height--------------------*/
+
+/*height when menubar activated*/
+/*
+:root:not([customizing]) #toolbar-menubar:not([inactive="true"]) +
+#TabsToolbar #tabbrowser-tabs{
+top: calc(var(--uc-bookbar-height) + 36px) !important;
+height: calc(var(--uc-tabbar-height-adjust) - 52px) !important;}
+
+:root:not([customizing]) #toolbar-menubar[autohide="false"] + #TabsToolbar #tabbrowser-tabs{
+top: var(--uc-bookbar-height) !important; 
+height: var(--uc-tabbar-height-adjust) !important;}
+
+:root:not([customizing]) #titlebar > #toolbar-menubar:not([inactive="true"]) ~ #TabsToolbar > #tabbrowser-tabs{
+top: var(--uc-bookbar-height) !important;
+height: var(--uc-tabbar-height-adjust) !important;}
+
+:root:not([customizing]) #titlebar > #toolbar-menubar[autohide="false"] ~ #TabsToolbar > #tabbrowser-tabs{
+top: var(--uc-bookbar-height) !important; 
+height: var(--uc-tabbar-height-adjust) !important;}
+*/
+/*--height when bookmark bar activated--*/
+
+:root:has([collapsed="false"]) #tabbrowser-tabs{
+top: var(--uc-bookbar-height); 
+height:var(--uc-tabbar-height-adjust) !important;}
+
+/*--height in full screen mode--*/
+
+#main-window:is([inDOMFullscreen]) #tabbrowser-tabs
+{ top: var(--uc-navbar-height) !important; }
+
+
+/*--vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv--*/
+/*-------------------adjustment--------------------*/
+
+@media (-moz-bool-pref: "userchrome.vertical-tabs.on-right.enabled"){
+#PersonalToolbar, #tab-notification-deck, .global-notificationbox,
+#main-window:not([inDOMFullscreen]) > body > #browser
+{
+    /*margin-left: 0 !important;
+    margin-right: 0 !important;*/
+  }
+  :root:not([customizing]) #tabbrowser-tabs{
+    left: unset;
+    right: 0;
+  }
+}
+
+.tabbrowser-tab:not([pinned], [fadein]) {
+  max-width: 0.1px;
+  min-width: 0.1px;
+  visibility: initial;
+  opacity: 1;
+}
+.tabbrowser-tab:not([pinned]){
+flex: 100 100;}
+
+.tabbrowser-tab, .tabbrowser-tab:not([pinned]), .tabbrowser-tab:is([pinned]) {
+  padding: 0 2px !important;
+  flex-shrink: 0;
+  --tab-label-mask-size: 2em;
+}
+
+
+/*--END the adjustment--*/
+/*--^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^--*/
+
+
+/*-------------------tab buttons--------------------*/
+
+#tabs-newtab-button
+{border-radius: var(--tab-border-radius);}
+
+#new-tab-button {display: none !important}
+
+#tabs-newtab-button > .toolbarbutton-icon
+{background: none !important;}
+
+#tabbrowser-tabs[hasadjacentnewtabbutton] #tabs-newtab-button{
+  display: flex !important;
+}
+.tab-close-button
+{display: flex !important;}
+
+
+
+/*new tab button that sits under tabs*/
+
+#tabbrowser-tabs[hasadjacentnewtabbutton]:not([overflow]) ~ #new-tab-button, 
+#tabbrowser-tabs[overflow] > #tabbrowser-arrowscrollbox > #tabbrowser-arrowscrollbox-periphery > 
+#tabs-newtab-button, #tabbrowser-tabs:not([hasadjacentnewtabbutton]) > 
+#tabbrowser-arrowscrollbox > #tabbrowser-arrowscrollbox-periphery > 
+#tabs-newtab-button, #TabsToolbar[customizing="true"] #tabs-newtab-button
+{ display: flex !important; justify-content: left ;}
+#tabbrowser-tabs:hover #tabs-newtab-button
+{ justify-content: center !important;}
+#tabs-newtab-button {width: 100%; height: 200px;}
+#tabs-newtab-button:hover { background: rgba(0,0,0,0.1) !important; }
+#tabs-newtab-button:active { background: rgba(0,0,0,0.2) !important; }
+#new-tab-button {
+  background: transparent !important;
+  opacity: 0 !important;
+  left: 5px;
+  position: absolute;
+  display: none !important;
+}
+/* this button is a pain */
+#alltabs-button {display: none;}
+
+
+
+
+
+#TabsToolbar > .titlebar-buttonbox-container
+{position: fixed;right: 0;}
+
+
+
+
+.tab-content {
+  :root:not([uidensity="compact"]) &[pinned] {
+    padding: 0px;
+  }
+}
+#tabbrowser-tabs:is(haspinnedtabs="") scrollbox[orient="horizontal"]
+{
+display: var(--uc-scrollbox-box-model,flex);
+-webkit-box-orient: vertical;
+height: 100%;
+overflow: var(--uc-scrollbox-overflow,initial);
+}
+
+#tabbrowser-tabs[positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned] {
+  position: absolute !important;
+  display: flex;
+  margin-inline-start: 0px !important;
+  margin-left: auto;
+}
+#tabbrowser-tabs[positionpinnedtabs] > #tabbrowser-arrowscrollbox > .tabbrowser-tab[pinned] {
+  position: initial;
+  display: initial;
+  margin-left: initial;
+}
+
+/*-------------------menu bar--------------------*/
+
+/*--quick styling--*/
+
+#menubar-items {
+background: var(--uc-ultima-background-ii) !important;
+border-radius: 5px !important;
+justify-content: center !important;
+}
+#toolbar-menubar:not([inactive="true"]) #main-menubar > menu { &[_moz-menuactive] {
+background-color: var(--uc-selected) !important;
+color: inherit;
+border-radius: 5px !important;}}
+
+
+/*--positioning when active--*/
+
+/*#toolbar-menubar:not([inactive="true"]), */
+#toolbar-menubar[autohide="false"] {
+position: fixed;
+left: calc(50vw - 150px);
+top: var(--uc-navbar-height);
+height:23px !important;
+}
+#toolbar-menubar:not([inactive="true"]) #main-menubar > menu { &[_moz-menuactive] {
+background-color: var(--uc-selected) !important;
+color: inherit;
+border-radius: 5px !important;}}
+
+
+/*--positioning when pressing alt--*/
+
+/*#toolbar-menubar:not([inactive="true"]), */
+#toolbar-menubar[autohide="true"]:not([inactive="true"]) {
+position: fixed;
+left: calc(50vw - 150px);
+top: var(--uc-navbar-height);
+height:23px !important;
+}
+
+/*-------------------fin--------------------*/
