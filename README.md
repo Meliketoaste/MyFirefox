@@ -10,4 +10,6 @@ https://github.com/Meliketoaste/MyFirefox/assets/104159340/79b0c48b-3cc2-498d-bc
 I havent bothered doing all of them in my nix configuration.
 So here is the ones i use.
 # My configuration
-
+![Firefoxconfig nix](./default.nix)
+![Userchrome.css](./userChrome.css)
+![UserContent.css](./userContent.css)
